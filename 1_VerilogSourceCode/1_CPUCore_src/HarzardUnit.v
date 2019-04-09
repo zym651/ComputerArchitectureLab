@@ -1,44 +1,89 @@
 `timescale 1ns / 1ps
+
 //////////////////////////////////////////////////////////////////////////////////
-// Company: USTC ESLABï¼ˆEmbeded System Labï¼‰
+
+// Company: USTC ESLAB£¨Embeded System Lab£©
+
 // Engineer: Haojun Xia & Xuan Wang
+
 // Create Date: 2019/02/22
+
 // Design Name: RISCV-Pipline CPU
+
 // Module Name: HarzardUnit
+
 // Target Devices: Nexys4
+
 // Tool Versions: Vivado 2017.4.1
+
 // Description: Deal with harzards in pipline
+
 //////////////////////////////////////////////////////////////////////////////////
+
 module HarzardUnit(
+
     input wire CpuRst, ICacheMiss, DCacheMiss, 
+
     input wire BranchE, JalrE, JalD, 
+
     input wire [4:0] Rs1D, Rs2D, Rs1E, Rs2E, RdE, RdM, RdW,
+
     input wire [1:0] RegReadE,
-    input wire [2:0] MemToRegE, RegWriteM, RegWriteW,
+
+    input wire MemToRegE,
+
+    input wire [2:0] RegWriteM, RegWriteW,
+
     output reg StallF, FlushF, StallD, FlushD, StallE, FlushE, StallM, FlushM, StallW, FlushW,
+
     output reg [1:0] Forward1E, Forward2E
+
     );
+
     //Stall and Flush signals generate
+
+
 
     //Forward Register Source 1
 
+
+
     //Forward Register Source 2
+
+
 
 endmodule
 
-//åŠŸèƒ½è¯´æ˜
-    //HarzardUnitç”¨æ¥å¤„ç†æµæ°´çº¿å†²çªï¼Œé€šè¿‡æ’å…¥æ°”æ³¡ï¼Œforwardä»¥åŠå†²åˆ·æµæ°´æ®µè§£å†³æ•°æ®ç›¸å…³å’Œæ§åˆ¶ç›¸å…³ï¼Œç»„åˆé€»è¾‘ç”µè·¯
-    //å¯ä»¥æœ€åå®ç°ã€‚å‰æœŸæµ‹è¯•CPUæ­£ç¡®æ€§æ—¶ï¼Œå¯ä»¥åœ¨æ¯ä¸¤æ¡æŒ‡ä»¤é—´æ’å…¥å››æ¡ç©ºæŒ‡ä»¤ï¼Œç„¶åç›´æ¥æŠŠæœ¬æ¨¡å—è¾“å‡ºå®šä¸ºï¼Œä¸forwardï¼Œä¸stallï¼Œä¸flush 
-//è¾“å…¥
-    //CpuRst                                    å¤–éƒ¨ä¿¡å·ï¼Œç”¨æ¥åˆå§‹åŒ–CPUï¼Œå½“CpuRst==1æ—¶CPUå…¨å±€å¤ä½æ¸…é›¶ï¼ˆæ‰€æœ‰æ®µå¯„å­˜å™¨flushï¼‰ï¼ŒCpu_Rst==0æ—¶cpuå¼€å§‹æ‰§è¡ŒæŒ‡ä»¤
-    //ICacheMiss, DCacheMiss                    ä¸ºåç»­å®éªŒé¢„ç•™ä¿¡å·ï¼Œæš‚æ—¶å¯ä»¥æ— è§†ï¼Œç”¨æ¥å¤„ç†cache miss
-    //BranchE, JalrE, JalD                      ç”¨æ¥å¤„ç†æ§åˆ¶ç›¸å…³
-    //Rs1D, Rs2D, Rs1E, Rs2E, RdE, RdM, RdW     ç”¨æ¥å¤„ç†æ•°æ®ç›¸å…³ï¼Œåˆ†åˆ«è¡¨ç¤ºæºå¯„å­˜å™¨1å·ç ï¼Œæºå¯„å­˜å™¨2å·ç ï¼Œç›®æ ‡å¯„å­˜å™¨å·ç 
-    //RegReadE RegReadD[1]==1                   è¡¨ç¤ºA1å¯¹åº”çš„å¯„å­˜å™¨å€¼è¢«ä½¿ç”¨åˆ°äº†ï¼ŒRegReadD[0]==1è¡¨ç¤ºA2å¯¹åº”çš„å¯„å­˜å™¨å€¼è¢«ä½¿ç”¨åˆ°äº†ï¼Œç”¨äºforwardçš„å¤„ç†
-    //RegWriteM, RegWriteW                      ç”¨æ¥å¤„ç†æ•°æ®ç›¸å…³ï¼ŒRegWrite!=3'b0è¯´æ˜å¯¹ç›®æ ‡å¯„å­˜å™¨æœ‰å†™å…¥æ“ä½œ
-    //MemToRegE                                 è¡¨ç¤ºExæ®µå½“å‰æŒ‡ä»¤ ä»Data Memoryä¸­åŠ è½½æ•°æ®åˆ°å¯„å­˜å™¨ä¸­
-//è¾“å‡º
-    //StallF, FlushF, StallD, FlushD, StallE, FlushE, StallM, FlushM, StallW, FlushW    æ§åˆ¶äº”ä¸ªæ®µå¯„å­˜å™¨è¿›è¡Œstallï¼ˆç»´æŒçŠ¶æ€ä¸å˜ï¼‰å’Œflushï¼ˆæ¸…é›¶ï¼‰
-    //Forward1E, Forward2E                                                              æ§åˆ¶forward
-//å®éªŒè¦æ±‚  
-    //å®ç°HarzardUnitæ¨¡å—   
+
+
+//¹¦ÄÜËµÃ÷
+
+    //HarzardUnitÓÃÀ´´¦ÀíÁ÷Ë®Ïß³åÍ»£¬Í¨¹ı²åÈëÆøÅİ£¬forwardÒÔ¼°³åË¢Á÷Ë®¶Î½â¾öÊı¾İÏà¹ØºÍ¿ØÖÆÏà¹Ø£¬×éºÏÂß¼­µçÂ·
+
+    //¿ÉÒÔ×îºóÊµÏÖ¡£Ç°ÆÚ²âÊÔCPUÕıÈ·ĞÔÊ±£¬¿ÉÒÔÔÚÃ¿Á½ÌõÖ¸Áî¼ä²åÈëËÄÌõ¿ÕÖ¸Áî£¬È»ºóÖ±½Ó°Ñ±¾Ä£¿éÊä³ö¶¨Îª£¬²»forward£¬²»stall£¬²»flush 
+
+//ÊäÈë
+
+    //CpuRst                                    Íâ²¿ĞÅºÅ£¬ÓÃÀ´³õÊ¼»¯CPU£¬µ±CpuRst==1Ê±CPUÈ«¾Ö¸´Î»ÇåÁã£¨ËùÓĞ¶Î¼Ä´æÆ÷flush£©£¬Cpu_Rst==0Ê±cpu¿ªÊ¼Ö´ĞĞÖ¸Áî
+
+    //ICacheMiss, DCacheMiss                    ÎªºóĞøÊµÑéÔ¤ÁôĞÅºÅ£¬ÔİÊ±¿ÉÒÔÎŞÊÓ£¬ÓÃÀ´´¦Àícache miss
+
+    //BranchE, JalrE, JalD                      ÓÃÀ´´¦Àí¿ØÖÆÏà¹Ø
+
+    //Rs1D, Rs2D, Rs1E, Rs2E, RdE, RdM, RdW     ÓÃÀ´´¦ÀíÊı¾İÏà¹Ø£¬·Ö±ğ±íÊ¾Ô´¼Ä´æÆ÷1ºÅÂë£¬Ô´¼Ä´æÆ÷2ºÅÂë£¬Ä¿±ê¼Ä´æÆ÷ºÅÂë
+
+    //RegReadE RegReadD[1]==1                   ±íÊ¾A1¶ÔÓ¦µÄ¼Ä´æÆ÷Öµ±»Ê¹ÓÃµ½ÁË£¬RegReadD[0]==1±íÊ¾A2¶ÔÓ¦µÄ¼Ä´æÆ÷Öµ±»Ê¹ÓÃµ½ÁË£¬ÓÃÓÚforwardµÄ´¦Àí
+
+    //RegWriteM, RegWriteW                      ÓÃÀ´´¦ÀíÊı¾İÏà¹Ø£¬RegWrite!=3'b0ËµÃ÷¶ÔÄ¿±ê¼Ä´æÆ÷ÓĞĞ´Èë²Ù×÷
+
+    //MemToRegE                                 ±íÊ¾Ex¶Îµ±Ç°Ö¸Áî ´ÓData MemoryÖĞ¼ÓÔØÊı¾İµ½¼Ä´æÆ÷ÖĞ
+
+//Êä³ö
+
+    //StallF, FlushF, StallD, FlushD, StallE, FlushE, StallM, FlushM, StallW, FlushW    ¿ØÖÆÎå¸ö¶Î¼Ä´æÆ÷½øĞĞstall£¨Î¬³Ö×´Ì¬²»±ä£©ºÍflush£¨ÇåÁã£©
+
+    //Forward1E, Forward2E                                                              ¿ØÖÆforward
+
+//ÊµÑéÒªÇó  
+
+    //ÊµÏÖHarzardUnitÄ£¿é   

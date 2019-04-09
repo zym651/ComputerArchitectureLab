@@ -17,17 +17,41 @@ module DataExt(
     input wire [2:0] RegWriteW,
     output reg [31:0] OUT
     );    
+    
+    reg [31:0] tmp;
+    
+   initial begin
+       OUT = 32'b0;
+   end
+   
+   always@(*) begin
+       case(RegWriteW)
+           `LB:    begin
+                       tmp <= IN >> (LoadedBytesSelect*8);
+                       OUT <= { {24{tmp[7]}}, tmp[7:0] };
+                   end
+           `LH:    begin
+                       tmp <= IN >> (LoadedBytesSelect*8);
+                       OUT <= { {16{tmp[15]}}, tmp[15:0] };
+                   end
+           `LW:    OUT <= IN;
+           `LBU:   OUT <= (IN >> (LoadedBytesSelect*8)) & 32'hff;
+           `LHU:   OUT <= (IN >> (LoadedBytesSelect*8)) & 32'hffff;
+           default:OUT <= 32'b0; 
+       endcase
+   end
+    
 endmodule
 
-//åŠŸèƒ½è¯´æ˜Ž
-    //DataExtæ˜¯ç”¨æ¥å¤„ç†éžå­—å¯¹é½loadçš„æƒ…å½¢ï¼ŒåŒæ—¶æ ¹æ®loadçš„ä¸åŒæ¨¡å¼å¯¹Data Memä¸­loadçš„æ•°è¿›è¡Œç¬¦å·æˆ–è€…æ— ç¬¦å·æ‹“å±•ï¼Œç»„åˆé€»è¾‘ç”µè·¯
-//è¾“å…¥
-    //IN                    æ˜¯ä»ŽData Memoryä¸­loadçš„32bitå­—
-    //LoadedBytesSelect     ç­‰ä»·äºŽAluOutM[1:0]ï¼Œæ˜¯è¯»Data Memoryåœ°å€çš„ä½Žä¸¤ä½ï¼Œ
-                            //å› ä¸ºDataMemoryæ˜¯æŒ‰å­—ï¼ˆ32bitï¼‰è¿›è¡Œè®¿é—®çš„ï¼Œæ‰€ä»¥éœ€è¦æŠŠå­—èŠ‚åœ°å€è½¬åŒ–ä¸ºå­—åœ°å€ä¼ ç»™DataMem
-                            //DataMemä¸€æ¬¡è¿”å›žä¸€ä¸ªå­—ï¼Œä½Žä¸¤ä½åœ°å€ç”¨æ¥ä»Ž32bitå­—ä¸­æŒ‘é€‰å‡ºæˆ‘ä»¬éœ€è¦çš„å­—èŠ‚
-    //RegWriteW             è¡¨ç¤ºä¸åŒçš„ å¯„å­˜å™¨å†™å…¥æ¨¡å¼ ï¼Œæ‰€æœ‰æ¨¡å¼å®šä¹‰åœ¨Parameters.vä¸­
-//è¾“å‡º
-    //OUTè¡¨ç¤ºè¦å†™å…¥å¯„å­˜å™¨çš„æœ€ç»ˆå€¼
-//å®žéªŒè¦æ±‚  
-    //å®žçŽ°DataExtæ¨¡å—  
+//¹¦ÄÜËµÃ÷
+    //DataExtÊÇÓÃÀ´´¦Àí·Ç×Ö¶ÔÆëloadµÄÇéÐÎ£¬Í¬Ê±¸ù¾ÝloadµÄ²»Í¬Ä£Ê½¶ÔData MemÖÐloadµÄÊý½øÐÐ·ûºÅ»òÕßÎÞ·ûºÅÍØÕ¹£¬×éºÏÂß¼­µçÂ·
+//ÊäÈë
+    //IN                    ÊÇ´ÓData MemoryÖÐloadµÄ32bit×Ö
+    //LoadedBytesSelect     µÈ¼ÛÓÚAluOutM[1:0]£¬ÊÇ¶ÁData MemoryµØÖ·µÄµÍÁ½Î»£¬
+                            //ÒòÎªDataMemoryÊÇ°´×Ö£¨32bit£©½øÐÐ·ÃÎÊµÄ£¬ËùÒÔÐèÒª°Ñ×Ö½ÚµØÖ·×ª»¯Îª×ÖµØÖ·´«¸øDataMem
+                            //DataMemÒ»´Î·µ»ØÒ»¸ö×Ö£¬µÍÁ½Î»µØÖ·ÓÃÀ´´Ó32bit×ÖÖÐÌôÑ¡³öÎÒÃÇÐèÒªµÄ×Ö½Ú
+    //RegWriteW             ±íÊ¾²»Í¬µÄ ¼Ä´æÆ÷Ð´ÈëÄ£Ê½ £¬ËùÓÐÄ£Ê½¶¨ÒåÔÚParameters.vÖÐ
+//Êä³ö
+    //OUT±íÊ¾ÒªÐ´Èë¼Ä´æÆ÷µÄ×îÖÕÖµ
+//ÊµÑéÒªÇó  
+    //ÊµÏÖDataExtÄ£¿é  

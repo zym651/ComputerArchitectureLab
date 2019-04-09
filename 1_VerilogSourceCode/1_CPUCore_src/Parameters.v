@@ -45,9 +45,18 @@
     `define LW  3'd3			//	write 32bit to Register
     `define LBU  3'd4			//	load 8bit from Mem then unsigned extended to 32bit
     `define LHU  3'd5			//	load 16bit from Mem then unsigned extended to 32bit
+//Op code
+    `define LD  7'b0000011
+    `define ST  7'b0100011
+    `define NIMM 7'b0110011
+    `define IMM 7'b0010011
+    `define LUI 7'b0110111
+    `define AUIPC 7'b0010111
+    `define BR 7'b1100011
+    `define JL 7'b1101111
 `endif
 
-//åŠŸèƒ½è¯´æ˜
-    //ä¸ºäº†ä»£ç å¯è¯»æ€§ï¼Œå®šä¹‰äº†å¸¸é‡å€¼
-//å®éªŒè¦æ±‚  
-    //æ— éœ€ä¿®æ”¹
+//¹¦ÄÜËµÃ÷
+    //ÎªÁË´úÂë¿É¶ÁĞÔ£¬¶¨ÒåÁË³£Á¿Öµ
+//ÊµÑéÒªÇó  
+    //ÎŞĞèĞŞ¸Ä

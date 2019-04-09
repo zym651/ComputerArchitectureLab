@@ -27,26 +27,47 @@ module ControlUnit(
     output wire AluSrc1D,
     output reg [2:0] ImmType        
     );
+    
+    initial begin
+        RegWriteD = 3'b0;
+        MemWriteD = 4'b0;
+        RegReadD = 2'b0;
+        BranchTypeD = 3'b0;
+        AluContrlD = 4'b0;
+        ImmType = 3'b0;
+    end
+    
+   /* always@(*) begin
+        case(Op)
+            0000011:    begin
+                            MemToRegD <= 0;
+                            case(Fn3)
+                                
+                            endcase
+                        end
+        endcase
+    end
+    */
 endmodule
 
-//åŠŸèƒ½è¯´æ˜Ž
-    //ControlUnit       æ˜¯æœ¬CPUçš„æŒ‡ä»¤è¯‘ç å™¨ï¼Œç»„åˆé€»è¾‘ç”µè·¯
-//è¾“å…¥
-    // Op               æ˜¯æŒ‡ä»¤çš„æ“ä½œç éƒ¨åˆ†
-    // Fn3              æ˜¯æŒ‡ä»¤çš„func3éƒ¨åˆ†
-    // Fn7              æ˜¯æŒ‡ä»¤çš„func7éƒ¨åˆ†
-//è¾“å‡º
-    // JalD==1          è¡¨ç¤ºJalæŒ‡ä»¤åˆ°è¾¾IDè¯‘ç é˜¶æ®µ
-    // JalrD==1         è¡¨ç¤ºJalræŒ‡ä»¤åˆ°è¾¾IDè¯‘ç é˜¶æ®µ
-    // RegWriteD        è¡¨ç¤ºIDé˜¶æ®µçš„æŒ‡ä»¤å¯¹åº”çš„ å¯„å­˜å™¨å†™å…¥æ¨¡å¼ ï¼Œæ‰€æœ‰æ¨¡å¼å®šä¹‰åœ¨Parameters.vä¸­
-    // MemToRegD==1     è¡¨ç¤ºIDé˜¶æ®µçš„æŒ‡ä»¤éœ€è¦å°†data memoryè¯»å–çš„å€¼å†™å…¥å¯„å­˜å™¨,
-    // MemWriteD        å…±4bitï¼Œé‡‡ç”¨ç‹¬çƒ­ç æ ¼å¼ï¼Œå¯¹äºŽdata memoryçš„32bitå­—æŒ‰byteè¿›è¡Œå†™å…¥,MemWriteD=0001è¡¨ç¤ºåªå†™å…¥æœ€ä½Ž1ä¸ªbyteï¼Œå’Œxilinx bramçš„æŽ¥å£ç±»ä¼¼
-    // LoadNpcD==1      è¡¨ç¤ºå°†NextPCè¾“å‡ºåˆ°ResultM
-    // RegReadD[1]==1   è¡¨ç¤ºA1å¯¹åº”çš„å¯„å­˜å™¨å€¼è¢«ä½¿ç”¨åˆ°äº†ï¼ŒRegReadD[0]==1è¡¨ç¤ºA2å¯¹åº”çš„å¯„å­˜å™¨å€¼è¢«ä½¿ç”¨åˆ°äº†ï¼Œç”¨äºŽforwardçš„å¤„ç†
-    // BranchTypeD      è¡¨ç¤ºä¸åŒçš„åˆ†æ”¯ç±»åž‹ï¼Œæ‰€æœ‰ç±»åž‹å®šä¹‰åœ¨Parameters.vä¸­
-    // AluContrlD       è¡¨ç¤ºä¸åŒçš„ALUè®¡ç®—åŠŸèƒ½ï¼Œæ‰€æœ‰ç±»åž‹å®šä¹‰åœ¨Parameters.vä¸­
-    // AluSrc2D         è¡¨ç¤ºAluè¾“å…¥æº2çš„é€‰æ‹©
-    // AluSrc1D         è¡¨ç¤ºAluè¾“å…¥æº1çš„é€‰æ‹©
-    // ImmType          è¡¨ç¤ºæŒ‡ä»¤çš„ç«‹å³æ•°æ ¼å¼ï¼Œæ‰€æœ‰ç±»åž‹å®šä¹‰åœ¨Parameters.vä¸­   
-//å®žéªŒè¦æ±‚  
-    //å®žçŽ°ControlUnitæ¨¡å—   
+//¹¦ÄÜËµÃ÷
+    //ControlUnit       ÊÇ±¾CPUµÄÖ¸ÁîÒëÂëÆ÷£¬×éºÏÂß¼­µçÂ·
+//ÊäÈë
+    // Op               ÊÇÖ¸ÁîµÄ²Ù×÷Âë²¿·Ö
+    // Fn3              ÊÇÖ¸ÁîµÄfunc3²¿·Ö
+    // Fn7              ÊÇÖ¸ÁîµÄfunc7²¿·Ö
+//Êä³ö
+    // JalD==1          ±íÊ¾JalÖ¸Áîµ½´ïIDÒëÂë½×¶Î
+    // JalrD==1         ±íÊ¾JalrÖ¸Áîµ½´ïIDÒëÂë½×¶Î
+    // RegWriteD        ±íÊ¾ID½×¶ÎµÄÖ¸Áî¶ÔÓ¦µÄ ¼Ä´æÆ÷Ð´ÈëÄ£Ê½ £¬ËùÓÐÄ£Ê½¶¨ÒåÔÚParameters.vÖÐ
+    // MemToRegD==1     ±íÊ¾ID½×¶ÎµÄÖ¸ÁîÐèÒª½«data memory¶ÁÈ¡µÄÖµÐ´Èë¼Ä´æÆ÷,
+    // MemWriteD        ¹²4bit£¬²ÉÓÃ¶ÀÈÈÂë¸ñÊ½£¬¶ÔÓÚdata memoryµÄ32bit×Ö°´byte½øÐÐÐ´Èë,MemWriteD=0001±íÊ¾Ö»Ð´Èë×îµÍ1¸öbyte£¬ºÍxilinx bramµÄ½Ó¿ÚÀàËÆ
+    // LoadNpcD==1      ±íÊ¾½«NextPCÊä³öµ½ResultM
+    // RegReadD[1]==1   ±íÊ¾A1¶ÔÓ¦µÄ¼Ä´æÆ÷Öµ±»Ê¹ÓÃµ½ÁË£¬RegReadD[0]==1±íÊ¾A2¶ÔÓ¦µÄ¼Ä´æÆ÷Öµ±»Ê¹ÓÃµ½ÁË£¬ÓÃÓÚforwardµÄ´¦Àí
+    // BranchTypeD      ±íÊ¾²»Í¬µÄ·ÖÖ§ÀàÐÍ£¬ËùÓÐÀàÐÍ¶¨ÒåÔÚParameters.vÖÐ
+    // AluContrlD       ±íÊ¾²»Í¬µÄALU¼ÆËã¹¦ÄÜ£¬ËùÓÐÀàÐÍ¶¨ÒåÔÚParameters.vÖÐ
+    // AluSrc2D         ±íÊ¾AluÊäÈëÔ´2µÄÑ¡Ôñ
+    // AluSrc1D         ±íÊ¾AluÊäÈëÔ´1µÄÑ¡Ôñ
+    // ImmType          ±íÊ¾Ö¸ÁîµÄÁ¢¼´Êý¸ñÊ½£¬ËùÓÐÀàÐÍ¶¨ÒåÔÚParameters.vÖÐ   
+//ÊµÑéÒªÇó  
+    //ÊµÏÖControlUnitÄ£¿é   

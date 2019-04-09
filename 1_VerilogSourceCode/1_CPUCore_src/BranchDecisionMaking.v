@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: USTC ESLAB(Embeded System Labï¼‰
+// Company: USTC ESLAB(Embeded System Lab£©
 // Engineer: Haojun Xia
 // Create Date: 2019/03/14 12:03:15
 // Design Name: RISCV-Pipline CPU
@@ -15,16 +15,64 @@ module BranchDecisionMaking(
     input wire [31:0] Operand1,Operand2,
     output reg BranchE
     );
+    
+    initial begin
+        BranchE = 0;
+    end
+    
+    always@(*) begin
+        case(BranchTypeE)
+            `BEQ:   begin
+                        if(Operand1 == Operand2)
+                            BranchE <= 1;
+                        else
+                            BranchE <= 0;
+                    end
+            `BNE:   begin
+                         if(Operand1 == Operand2)
+                            BranchE <= 0;
+                         else
+                            BranchE <= 1;
+                    end
+            `BLT:   begin
+                        if($signed(Operand1) < $signed(Operand2))
+                            BranchE <= 1;
+                        else
+                            BranchE <= 0;
+                    end
+            `BLTU:  begin
+                        if(Operand1 < Operand2)
+                            BranchE <= 1;
+                        else
+                            BranchE <= 0;
+                    end
+            `BGE:   begin
+                        if($signed(Operand1) > $signed(Operand2))
+                            BranchE <= 1;
+                        else
+                            BranchE <= 0;
+                    end
+            `BGEU:  begin
+                        if(Operand1 < Operand2)
+                            BranchE <= 1;
+                        else
+                            BranchE <= 0;
+                    end
+            default:    BranchE <= 0;
+        endcase
+    end
+    
+    
 endmodule
 
-//åŠŸèƒ½å’ŒæŽ¥å£è¯´æ˜Ž
-    //BranchDecisionMakingæŽ¥å—ä¸¤ä¸ªæ“ä½œæ•°ï¼Œæ ¹æ®BranchTypeEçš„ä¸åŒï¼Œè¿›è¡Œä¸åŒçš„åˆ¤æ–­ï¼Œå½“åˆ†æ”¯åº”è¯¥takenæ—¶ï¼Œä»¤BranchE=1'b1
-    //BranchTypeEçš„ç±»åž‹å®šä¹‰åœ¨Parameters.vä¸­
-//æŽ¨èæ ¼å¼ï¼š
+//¹¦ÄÜºÍ½Ó¿ÚËµÃ÷
+    //BranchDecisionMaking½ÓÊÜÁ½¸ö²Ù×÷Êý£¬¸ù¾ÝBranchTypeEµÄ²»Í¬£¬½øÐÐ²»Í¬µÄÅÐ¶Ï£¬µ±·ÖÖ§Ó¦¸ÃtakenÊ±£¬ÁîBranchE=1'b1
+    //BranchTypeEµÄÀàÐÍ¶¨ÒåÔÚParameters.vÖÐ
+//ÍÆ¼ö¸ñÊ½£º
     //case()
     //    `BEQ: ???
     //      .......
     //    default:                            BranchE<=1'b0;  //NOBRANCH
     //endcase
-//å®žéªŒè¦æ±‚  
-    //å®žçŽ°BranchDecisionMakingæ¨¡å—
+//ÊµÑéÒªÇó  
+    //ÊµÏÖBranchDecisionMakingÄ£¿é

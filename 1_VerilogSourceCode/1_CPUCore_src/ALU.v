@@ -14,18 +14,40 @@ module ALU(
     input wire [31:0] Operand1,
     input wire [31:0] Operand2,
     input wire [3:0] AluContrl,
-    output reg [31:0] AluOut
+    output reg [31:0] AluOut 
     );
+    
+    initial begin
+        AluOut = 32'b0;
+    end
+    
+    always@(*) begin
+        case(AluContrl)
+            `SLL:    AluOut <= Operand1 << Operand2[4:0];
+            `SRL:    AluOut <= Operand1 >> Operand2[4:0];
+            `SRA:    AluOut <= ($signed(Operand1)) >>> Operand2[4:0];
+            `ADD:    AluOut <= Operand1 + Operand2;
+            `SUB:    AluOut <= Operand1 - Operand2;
+            `XOR:    AluOut <= Operand1 ^ Operand2;
+            `OR:     AluOut <= Operand1 | Operand2;
+            `AND:    AluOut <= Operand1 & Operand2;
+            `SLT:    AluOut <= (($signed(Operand1)) < ($signed(Operand2))) ? 32'b1 : 32'b0;
+            `SLTU:   AluOut <= (Operand1 < Operand2) ? 32'b1 : 32'b0;
+            `LUI:    AluOut <= {Operand2[19:0], 12'b0};
+            default: AluOut <= 32'hxxxxxxxx;
+        endcase
+    end
+    
 endmodule
 
-//åŠŸèƒ½å’ŒæŽ¥å£è¯´æ˜Ž
-	//ALUæŽ¥å—ä¸¤ä¸ªæ“ä½œæ•°ï¼Œæ ¹æ®AluContrlçš„ä¸åŒï¼Œè¿›è¡Œä¸åŒçš„è®¡ç®—æ“ä½œï¼Œå°†è®¡ç®—ç»“æžœè¾“å‡ºåˆ°AluOut
-	//AluContrlçš„ç±»åž‹å®šä¹‰åœ¨Parameters.vä¸­
-//æŽ¨èæ ¼å¼ï¼š
+//¹¦ÄÜºÍ½Ó¿ÚËµÃ÷
+	//ALU½ÓÊÜÁ½¸ö²Ù×÷Êý£¬¸ù¾ÝAluContrlµÄ²»Í¬£¬½øÐÐ²»Í¬µÄ¼ÆËã²Ù×÷£¬½«¼ÆËã½á¹ûÊä³öµ½AluOut
+	//AluContrlµÄÀàÐÍ¶¨ÒåÔÚParameters.vÖÐ
+//ÍÆ¼ö¸ñÊ½£º
     //case()
     //    `ADD:        AluOut<=Operand1 + Operand2; 
     //   	.......
     //    default:    AluOut <= 32'hxxxxxxxx;                          
     //endcase
-//å®žéªŒè¦æ±‚  
-    //å®žçŽ°ALUæ¨¡å—
+//ÊµÑéÒªÇó  
+    //ÊµÏÖALUÄ£¿é

@@ -321,7 +321,7 @@ module RV32Core(
     	         
 endmodule
 
-//功能说明
-    //RV32I 指令集CPU的顶层模块
-//实验要求  
-    //无需修改
+//����˵��
+    //RV32I ָ�CPU�Ķ���ģ��
+//ʵ��Ҫ��  
+    //�����޸�

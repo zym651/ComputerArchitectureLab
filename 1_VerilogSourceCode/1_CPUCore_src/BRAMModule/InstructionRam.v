@@ -44,17 +44,17 @@ always @ (posedge clk)
 
 endmodule
 
-//鍔熻兘璇存槑
-    //鍚屾璇诲啓bram锛宎鍙ｅ彧璇伙紝鐢ㄤ簬鍙栨寚锛宐鍙ｅ彲璇诲啓锛岀敤浜庡鎺ebug_module杩涜璇诲啓
-    //鍐欎娇鑳戒负1bit锛屼笉鏀寔byte write
-//杈撳叆
-    //clk               杈撳叆鏃堕挓
-    //addra             a鍙ｈ鍦板潃
-    //addrb             b鍙ｈ鍐欏湴鍧�
-    //dinb              b鍙ｅ啓杈撳叆鏁版嵁
-    //web               b鍙ｅ啓浣胯兘
-//杈撳嚭
-    //douta             a鍙ｈ鏁版嵁
-    //doutb             b鍙ｈ鏁版嵁
-//瀹為獙瑕佹眰  
-    //鏃犻渶淇敼
+//功能说明
+    //同步读写bram，a口只读，用于取指，b口可读写，用于外接debug_module进行读写
+    //写使能为1bit，不支持byte write
+//输入
+    //clk               输入时钟
+    //addra             a口读地址
+    //addrb             b口读写地址
+    //dinb              b口写输入数据
+    //web               b口写使能
+//输出
+    //douta             a口读数据
+    //doutb             b口读数据
+//实验要求  
+    //无需修改

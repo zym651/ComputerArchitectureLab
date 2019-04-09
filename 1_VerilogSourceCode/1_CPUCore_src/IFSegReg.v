@@ -27,7 +27,7 @@ module IFSegReg(
     
 endmodule
 
-//鍔熻兘璇存槑
-    //IDSegReg鏄疘F-ID娈靛瘎瀛樺櫒
-//瀹為獙瑕佹眰  
-    //鏃犻渶淇敼
+//功能说明
+    //IDSegReg是IF-ID段寄存器
+//实验要求  
+    //无需修改

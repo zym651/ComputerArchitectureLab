@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: USTC ESLABï¼ˆEmbeded System Labï¼‰
+// Company: USTC ESLAB£¨Embeded System Lab£©
 // Engineer: Haojun Xia
 // Create Date: 2019/03/14 11:21:33
 // Design Name: RISCV-Pipline CPU
@@ -14,19 +14,35 @@ module NPC_Generator(
     input wire BranchE,JalD,JalrE,
     output reg [31:0] PC_In
     );
+    
+    initial begin
+        PC_In = 32'b0;
+    end
+    
+    always@(*) begin
+        if(JalrE == 1)
+            PC_In <= JalrTarget;
+        else if(BranchE == 1)
+            PC_In <= BranchTarget;
+        else if(JalD == 1)
+            PC_In <= JalTarget;
+        else
+            PC_In <= PCF + 32'd4;
+    end
+    
 endmodule
 
-//åŠŸèƒ½è¯´æ˜Ž
-    //NPC_Generatoræ˜¯ç”¨æ¥ç”ŸæˆNext PCå€¼å¾—æ¨¡å—ï¼Œæ ¹æ®ä¸åŒçš„è·³è½¬ä¿¡å·é€‰æ‹©ä¸åŒçš„æ–°PCå€¼
-//è¾“å…¥
-    //PCF              æ—§çš„PCå€¼
-    //JalrTarget       jalræŒ‡ä»¤çš„å¯¹åº”çš„è·³è½¬ç›®æ ‡
-    //BranchTarget     branchæŒ‡ä»¤çš„å¯¹åº”çš„è·³è½¬ç›®æ ‡
-    //JalTarget        jalæŒ‡ä»¤çš„å¯¹åº”çš„è·³è½¬ç›®æ ‡
-    //BranchE==1       Exé˜¶æ®µçš„BranchæŒ‡ä»¤ç¡®å®šè·³è½¬
-    //JalD==1          IDé˜¶æ®µçš„JalæŒ‡ä»¤ç¡®å®šè·³è½¬
-    //JalrE==1         Exé˜¶æ®µçš„JalræŒ‡ä»¤ç¡®å®šè·³è½¬
-//è¾“å‡º
-    //PC_In            NPCçš„å€¼
-//å®žéªŒè¦æ±‚  
-    //å®žçŽ°NPC_Generatoræ¨¡å—  
+//¹¦ÄÜËµÃ÷
+    //NPC_GeneratorÊÇÓÃÀ´Éú³ÉNext PCÖµµÃÄ£¿é£¬¸ù¾Ý²»Í¬µÄÌø×ªÐÅºÅÑ¡Ôñ²»Í¬µÄÐÂPCÖµ
+//ÊäÈë
+    //PCF              ¾ÉµÄPCÖµ
+    //JalrTarget       jalrÖ¸ÁîµÄ¶ÔÓ¦µÄÌø×ªÄ¿±ê
+    //BranchTarget     branchÖ¸ÁîµÄ¶ÔÓ¦µÄÌø×ªÄ¿±ê
+    //JalTarget        jalÖ¸ÁîµÄ¶ÔÓ¦µÄÌø×ªÄ¿±ê
+    //BranchE==1       Ex½×¶ÎµÄBranchÖ¸ÁîÈ·¶¨Ìø×ª
+    //JalD==1          ID½×¶ÎµÄJalÖ¸ÁîÈ·¶¨Ìø×ª
+    //JalrE==1         Ex½×¶ÎµÄJalrÖ¸ÁîÈ·¶¨Ìø×ª
+//Êä³ö
+    //PC_In            NPCµÄÖµ
+//ÊµÑéÒªÇó  
+    //ÊµÏÖNPC_GeneratorÄ£¿é  
