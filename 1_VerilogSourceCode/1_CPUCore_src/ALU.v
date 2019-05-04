@@ -20,7 +20,7 @@ module ALU(
     initial begin
         AluOut = 32'b0;
     end
-    
+
     always@(*) begin
         case(AluContrl)
             `SLL:    AluOut <= Operand1 << Operand2[4:0];
@@ -33,21 +33,21 @@ module ALU(
             `AND:    AluOut <= Operand1 & Operand2;
             `SLT:    AluOut <= (($signed(Operand1)) < ($signed(Operand2))) ? 32'b1 : 32'b0;
             `SLTU:   AluOut <= (Operand1 < Operand2) ? 32'b1 : 32'b0;
-            `LUI:    AluOut <= {Operand2[19:0], 12'b0};
+            `LUI:    AluOut <= Operand2;
             default: AluOut <= 32'hxxxxxxxx;
         endcase
     end
     
 endmodule
 
-//¹¦ÄÜºÍ½Ó¿ÚËµÃ÷
-	//ALU½ÓÊÜÁ½¸ö²Ù×÷Êý£¬¸ù¾ÝAluContrlµÄ²»Í¬£¬½øÐÐ²»Í¬µÄ¼ÆËã²Ù×÷£¬½«¼ÆËã½á¹ûÊä³öµ½AluOut
-	//AluContrlµÄÀàÐÍ¶¨ÒåÔÚParameters.vÖÐ
-//ÍÆ¼ö¸ñÊ½£º
+//åŠŸèƒ½å’ŒæŽ¥å£è¯´æ˜Ž
+	//ALUæŽ¥å—ä¸¤ä¸ªæ“ä½œæ•°ï¼Œæ ¹æ®AluContrlçš„ä¸åŒï¼Œè¿›è¡Œä¸åŒçš„è®¡ç®—æ“ä½œï¼Œå°†è®¡ç®—ç»“æžœè¾“å‡ºåˆ°AluOut
+	//AluContrlçš„ç±»åž‹å®šä¹‰åœ¨Parameters.vä¸­
+//æŽ¨èæ ¼å¼ï¼š
     //case()
     //    `ADD:        AluOut<=Operand1 + Operand2; 
     //   	.......
     //    default:    AluOut <= 32'hxxxxxxxx;                          
     //endcase
-//ÊµÑéÒªÇó  
-    //ÊµÏÖALUÄ£¿é
+//å®žéªŒè¦æ±‚  
+    //å®žçŽ°ALUæ¨¡å—

@@ -1,89 +1,99 @@
 `timescale 1ns / 1ps
 
 //////////////////////////////////////////////////////////////////////////////////
-
-// Company: USTC ESLAB（Embeded System Lab）
-
+// Company: USTC ESLAB锛圗mbeded System Lab锛?
 // Engineer: Haojun Xia & Xuan Wang
-
 // Create Date: 2019/02/22
-
 // Design Name: RISCV-Pipline CPU
-
 // Module Name: HarzardUnit
-
 // Target Devices: Nexys4
-
 // Tool Versions: Vivado 2017.4.1
-
 // Description: Deal with harzards in pipline
-
 //////////////////////////////////////////////////////////////////////////////////
-
 module HarzardUnit(
-
     input wire CpuRst, ICacheMiss, DCacheMiss, 
-
     input wire BranchE, JalrE, JalD, 
-
     input wire [4:0] Rs1D, Rs2D, Rs1E, Rs2E, RdE, RdM, RdW,
-
     input wire [1:0] RegReadE,
-
     input wire MemToRegE,
-
     input wire [2:0] RegWriteM, RegWriteW,
-
     output reg StallF, FlushF, StallD, FlushD, StallE, FlushE, StallM, FlushM, StallW, FlushW,
-
     output reg [1:0] Forward1E, Forward2E
-
     );
-
     //Stall and Flush signals generate
-
-
-
     //Forward Register Source 1
-
-
-
     //Forward Register Source 2
 
+    initial begin
+        StallF = 0;
+        FlushF = 0;
+        StallD = 0;
+        FlushD = 0;
+        StallE = 0;
+        FlushE = 0;
+        StallM = 0;
+        FlushM = 0;
+        StallW = 0;
+        FlushW = 0;
+        Forward1E = 2'b00;
+        Forward2E = 2'b00;
+    end
 
+    always@(*) begin
+        if(CpuRst) begin
+            FlushF <= 1;
+            FlushD <= 1;
+            FlushE <= 1;
+            FlushM <= 1;
+            FlushW <= 1;
+            StallF <= 0;
+            StallD <= 0;
+            StallE <= 0;
+            StallM <= 0;
+            StallW <= 0;
+            Forward1E = 2'b00;
+            Forward2E = 2'b00;
+        end
+        else begin
+            if(|RegWriteM && RdM != 5'b0  && RdM == Rs1E && RegReadE[1]) 
+                Forward1E <= 2'b10;
+            else if(|RegWriteW && RdW != 5'b0  && RdW == Rs1E && RegReadE[1])
+                Forward1E <= 2'b01;    
+            else
+                Forward1E <= 2'b00;
+
+            if(|RegWriteM && RdM != 5'b0  && RdM == Rs2E && RegReadE[0])   
+                Forward2E <= 2'b10;
+            else if(|RegWriteW && RdW != 5'b0  && RdW == Rs2E && RegReadE[0])
+                Forward2E <= 2'b01;    
+            else
+                Forward2E <= 2'b00;
+            
+            FlushF <= 0;
+            FlushM <= 0;
+            FlushW <= 0;
+            StallF <= (MemToRegE && RdE != 5'b0  && (RdM == Rs1E || RdM == Rs2E));
+            StallD <= (MemToRegE && RdE != 5'b0  && (RdM == Rs1E || RdM == Rs2E));
+            FlushD <= BranchE | JalrE | JalD;
+            FlushE <= BranchE | JalrE | (MemToRegE && RdE != 5'b0  && (RdM == Rs1E || RdM == Rs2E));
+        end
+    end
 
 endmodule
 
-
-
-//功能说明
-
-    //HarzardUnit用来处理流水线冲突，通过插入气泡，forward以及冲刷流水段解决数据相关和控制相关，组合逻辑电路
-
-    //可以最后实现。前期测试CPU正确性时，可以在每两条指令间插入四条空指令，然后直接把本模块输出定为，不forward，不stall，不flush 
-
-//输入
-
-    //CpuRst                                    外部信号，用来初始化CPU，当CpuRst==1时CPU全局复位清零（所有段寄存器flush），Cpu_Rst==0时cpu开始执行指令
-
-    //ICacheMiss, DCacheMiss                    为后续实验预留信号，暂时可以无视，用来处理cache miss
-
-    //BranchE, JalrE, JalD                      用来处理控制相关
-
-    //Rs1D, Rs2D, Rs1E, Rs2E, RdE, RdM, RdW     用来处理数据相关，分别表示源寄存器1号码，源寄存器2号码，目标寄存器号码
-
-    //RegReadE RegReadD[1]==1                   表示A1对应的寄存器值被使用到了，RegReadD[0]==1表示A2对应的寄存器值被使用到了，用于forward的处理
-
-    //RegWriteM, RegWriteW                      用来处理数据相关，RegWrite!=3'b0说明对目标寄存器有写入操作
-
-    //MemToRegE                                 表示Ex段当前指令 从Data Memory中加载数据到寄存器中
-
-//输出
-
-    //StallF, FlushF, StallD, FlushD, StallE, FlushE, StallM, FlushM, StallW, FlushW    控制五个段寄存器进行stall（维持状态不变）和flush（清零）
-
-    //Forward1E, Forward2E                                                              控制forward
-
-//实验要求  
-
-    //实现HarzardUnit模块   
+//鍔熻兘璇存槑
+    //HarzardUnit鐢ㄦ潵澶勭悊娴佹按绾垮啿绐侊紝閫氳繃鎻掑叆姘旀场锛宖orward浠ュ強鍐插埛娴佹按娈佃В鍐虫暟鎹浉鍏冲拰鎺у埗鐩稿叧锛岀粍鍚堥?昏緫鐢佃矾
+    //鍙互鏈?鍚庡疄鐜般?傚墠鏈熸祴璇旵PU姝ｇ‘鎬ф椂锛屽彲浠ュ湪姣忎袱鏉℃寚浠ら棿鎻掑叆鍥涙潯绌烘寚浠わ紝鐒跺悗鐩存帴鎶婃湰妯″潡杈撳嚭瀹氫负锛屼笉forward锛屼笉stall锛屼笉flush 
+//杈撳叆
+    //CpuRst                                    澶栭儴淇″彿锛岀敤鏉ュ垵濮嬪寲CPU锛屽綋CpuRst==1鏃禖PU鍏ㄥ眬澶嶄綅娓呴浂锛堟墍鏈夋瀵勫瓨鍣╢lush锛夛紝Cpu_Rst==0鏃禼pu寮?濮嬫墽琛屾寚浠?
+    //ICacheMiss, DCacheMiss                    涓哄悗缁疄楠岄鐣欎俊鍙凤紝鏆傛椂鍙互鏃犺锛岀敤鏉ュ鐞哻ache miss
+    //BranchE, JalrE, JalD                      鐢ㄦ潵澶勭悊鎺у埗鐩稿叧
+    //Rs1D, Rs2D, Rs1E, Rs2E, RdE, RdM, RdW     鐢ㄦ潵澶勭悊鏁版嵁鐩稿叧锛屽垎鍒〃绀烘簮瀵勫瓨鍣?1鍙风爜锛屾簮瀵勫瓨鍣?2鍙风爜锛岀洰鏍囧瘎瀛樺櫒鍙风爜
+    //RegReadE RegReadD[1]==1                   琛ㄧずA1瀵瑰簲鐨勫瘎瀛樺櫒鍊艰浣跨敤鍒颁簡锛孯egReadD[0]==1琛ㄧずA2瀵瑰簲鐨勫瘎瀛樺櫒鍊艰浣跨敤鍒颁簡锛岀敤浜巉orward鐨勫鐞?
+    //RegWriteM, RegWriteW                      鐢ㄦ潵澶勭悊鏁版嵁鐩稿叧锛孯egWrite!=3'b0璇存槑瀵圭洰鏍囧瘎瀛樺櫒鏈夊啓鍏ユ搷浣?
+    //MemToRegE                                 琛ㄧずEx娈靛綋鍓嶆寚浠? 浠嶥ata Memory涓姞杞芥暟鎹埌瀵勫瓨鍣ㄤ腑
+//杈撳嚭
+    //StallF, FlushF, StallD, FlushD, StallE, FlushE, StallM, FlushM, StallW, FlushW    鎺у埗浜斾釜娈靛瘎瀛樺櫒杩涜stall锛堢淮鎸佺姸鎬佷笉鍙橈級鍜宖lush锛堟竻闆讹級
+    //Forward1E, Forward2E                                                              鎺у埗forward
+//瀹為獙瑕佹眰  
+    //瀹炵幇HarzardUnit妯″潡   

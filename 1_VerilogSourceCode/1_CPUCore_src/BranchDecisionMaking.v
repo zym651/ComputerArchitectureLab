@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: USTC ESLAB(Embeded System Lab）
+// Company: USTC ESLAB(Embeded System Lab锛?
 // Engineer: Haojun Xia
 // Create Date: 2019/03/14 12:03:15
 // Design Name: RISCV-Pipline CPU
@@ -22,57 +22,57 @@ module BranchDecisionMaking(
     
     always@(*) begin
         case(BranchTypeE)
-            `BEQ:   begin
-                        if(Operand1 == Operand2)
-                            BranchE <= 1;
-                        else
-                            BranchE <= 0;
-                    end
-            `BNE:   begin
-                         if(Operand1 == Operand2)
-                            BranchE <= 0;
-                         else
-                            BranchE <= 1;
-                    end
-            `BLT:   begin
-                        if($signed(Operand1) < $signed(Operand2))
-                            BranchE <= 1;
-                        else
-                            BranchE <= 0;
-                    end
-            `BLTU:  begin
-                        if(Operand1 < Operand2)
-                            BranchE <= 1;
-                        else
-                            BranchE <= 0;
-                    end
-            `BGE:   begin
-                        if($signed(Operand1) > $signed(Operand2))
-                            BranchE <= 1;
-                        else
-                            BranchE <= 0;
-                    end
-            `BGEU:  begin
-                        if(Operand1 < Operand2)
-                            BranchE <= 1;
-                        else
-                            BranchE <= 0;
-                    end
-            default:    BranchE <= 0;
+            `BEQ: begin
+                if(Operand1 == Operand2)
+                    BranchE <= 1;
+                else
+                    BranchE <= 0;
+            end
+            `BNE: begin
+                if(Operand1 == Operand2)
+                    BranchE <= 0;
+                else
+                    BranchE <= 1;
+            end
+            `BLT: begin
+                if($signed(Operand1) < $signed(Operand2))
+                    BranchE <= 1;
+                else
+                    BranchE <= 0;
+            end
+            `BLTU: begin
+                if(Operand1 < Operand2)
+                    BranchE <= 1;
+                else
+                    BranchE <= 0;
+            end
+            `BGE: begin
+                if($signed(Operand1) >= $signed(Operand2))
+                    BranchE <= 1;
+                else
+                    BranchE <= 0;
+            end
+            `BGEU: begin
+                if(Operand1 >= Operand2)
+                    BranchE <= 1;
+                else
+                    BranchE <= 0;
+            end
+            default:BranchE <= 0;
         endcase
     end
     
     
 endmodule
 
-//功能和接口说明
-    //BranchDecisionMaking接受两个操作数，根据BranchTypeE的不同，进行不同的判断，当分支应该taken时，令BranchE=1'b1
-    //BranchTypeE的类型定义在Parameters.v中
-//推荐格式：
+//鍔熻兘鍜屾帴鍙ｈ鏄?
+    //BranchDecisionMaking鎺ュ彈涓や釜鎿嶄綔鏁帮紝鏍规嵁BranchTypeE鐨勪笉鍚岋紝杩涜涓嶅悓鐨勫垽鏂紝褰撳垎鏀簲璇aken鏃讹紝浠ranchE=1'b1
+    //BranchTypeE鐨勭被鍨嬪畾涔夊湪Parameters.v涓?
+//鎺ㄨ崘鏍煎紡锛?
     //case()
     //    `BEQ: ???
     //      .......
     //    default:                            BranchE<=1'b0;  //NOBRANCH
     //endcase
-//实验要求  
-    //实现BranchDecisionMaking模块
+//瀹為獙瑕佹眰  
+    //瀹炵幇BranchDecisionMaking妯″潡

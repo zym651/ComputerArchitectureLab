@@ -1,9 +1,7 @@
 `timescale 1ns / 1ps
 
 //////////////////////////////////////////////////////////////////////////////////
-
 // Company: USTC ESLAB embeded System Lab
-
 // Engineer: Haojun Xia
 
 // Create Date: 2019/02/08
@@ -28,13 +26,13 @@
 
 //////////////////////////////////////////////////////////////////////////////////
 
-`define DataRamContentLoadPath "F:\\VivadoWorkspace\\RISCV-CPU\\RISCV-CPU.srcs\\sources_1\\new\\SimFiles\\1testAll.data"
+`define DataRamContentLoadPath "D:\\课程\\计算机体系结构\\ComputerArchitectureLab\\1_VerilogSourceCode\\2_Simulation\\3testAll.data"
 
-`define InstRamContentLoadPath "F:\\VivadoWorkspace\\RISCV-CPU\\RISCV-CPU.srcs\\sources_1\\new\\SimFiles\\1testAll.inst"
+`define InstRamContentLoadPath "D:\\课程\\计算机体系结构\\ComputerArchitectureLab\\1_VerilogSourceCode\\2_Simulation\\3testAll.inst"
 
-`define DataRamContentSavePath "F:\\VivadoWorkspace\\RISCV-CPU\\RISCV-CPU.srcs\\sources_1\\new\\SimFiles\\DataRamContent.txt"
+`define DataRamContentSavePath "D:\\课程\\计算机体系结构\\ComputerArchitectureLab\\1_VerilogSourceCode\\2_Simulation\\DataRamContent.txt"
 
-`define InstRamContentSavePath "F:\\VivadoWorkspace\\RISCV-CPU\\RISCV-CPU.srcs\\sources_1\\new\\SimFiles\\InstRamContent.txt"
+`define InstRamContentSavePath "D:\\课程\\计算机体系结构\\ComputerArchitectureLab\\1_VerilogSourceCode\\2_Simulation\\InstRamContent.txt"
 
 `define BRAMWORDS 4096  //a word is 32bit, so our bram is 4096*32bit
 
@@ -255,9 +253,7 @@ module testBench(
         
 
         $display("Saving DataRam Content to file..."); 
-
         CPU_Debug_DataRAM_A2 = 32'hfffffffc;
-
         #10
 
         SaveDataRamFile = $fopen(`DataRamContentSavePath,"w");
@@ -279,15 +275,10 @@ module testBench(
                 begin
 
                 @(posedge CPU_CLK);
-
                 CPU_Debug_DataRAM_A2 = CPU_Debug_DataRAM_A2+4;
-
                 @(posedge CPU_CLK);
-
                 @(negedge CPU_CLK);
-
                 $fwrite(SaveDataRamFile,"%4d\t%8h\t%4d\t%8h\t%4d\n",i,CPU_Debug_DataRAM_A2,CPU_Debug_DataRAM_A2,CPU_Debug_DataRAM_RD2,CPU_Debug_DataRAM_RD2);
-
                 end
 
             $fclose(SaveDataRamFile);
@@ -307,9 +298,7 @@ module testBench(
         else
 
         begin
-
             CPU_Debug_InstRAM_A2 = 32'hfffffffc;
-
             #10
 
             $fwrite(SaveInstRamFile,"i\tAddr\tAddr\tData\tData\n");
@@ -321,15 +310,10 @@ module testBench(
                 begin
 
                 @(posedge CPU_CLK);
-
                 CPU_Debug_InstRAM_A2 = CPU_Debug_InstRAM_A2+4;
-
                 @(posedge CPU_CLK);
-
                 @(negedge CPU_CLK);
-
                 $fwrite(SaveInstRamFile,"%4d\t%8h\t%4d\t%8h\t%4d\n",i,CPU_Debug_InstRAM_A2,CPU_Debug_InstRAM_A2,CPU_Debug_InstRAM_RD2,CPU_Debug_InstRAM_RD2);
-
                 end
 
             $fclose(SaveInstRamFile);      

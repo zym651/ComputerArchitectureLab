@@ -30,22 +30,22 @@ module ImmOperandUnit(
     
 endmodule
 
-//¹¦ÄÜËµÃ÷
-    //ImmOperandUnitÀûÓÃÕýÔÚ±»ÒëÂëµÄÖ¸ÁîµÄ²¿·Ö±àÂëÖµ£¬Éú³É²»Í¬ÀàÐÍµÄ32bitÁ¢¼´Êý
-//ÊäÈë
-    //IN        ÊÇÖ¸Áî³ýÁËopcodeÒÔÍâµÄ²¿·Ö±àÂëÖµ
-    //Type      ±íÊ¾Á¢¼´Êý±àÂëÀàÐÍ£¬È«²¿ÀàÐÍ¶¨ÒåÔÚParameters.vÖÐ
-//Êä³ö
-    //OUT       ±íÊ¾Ö¸Áî¶ÔÓ¦µÄÁ¢¼´Êý32bitÊµ¼ÊÖµ
-//ÊµÑéÒªÇó  
-    //²¹È«ImmOperandUnitÄ£¿é  
-    //´ý²¹È«²¿·ÖÈçÏÂ
+//åŠŸèƒ½è¯´æ˜Ž
+    //ImmOperandUnitåˆ©ç”¨æ­£åœ¨è¢«è¯‘ç çš„æŒ‡ä»¤çš„éƒ¨åˆ†ç¼–ç å€¼ï¼Œç”Ÿæˆä¸åŒç±»åž‹çš„32bitç«‹å³æ•°
+//è¾“å…¥
+    //IN        æ˜¯æŒ‡ä»¤é™¤äº†opcodeä»¥å¤–çš„éƒ¨åˆ†ç¼–ç å€¼
+    //Type      è¡¨ç¤ºç«‹å³æ•°ç¼–ç ç±»åž‹ï¼Œå…¨éƒ¨ç±»åž‹å®šä¹‰åœ¨Parameters.vä¸­
+//è¾“å‡º
+    //OUT       è¡¨ç¤ºæŒ‡ä»¤å¯¹åº”çš„ç«‹å³æ•°32bitå®žé™…å€¼
+//å®žéªŒè¦æ±‚  
+    //è¡¥å…¨ImmOperandUnitæ¨¡å—  
+    //å¾…è¡¥å…¨éƒ¨åˆ†å¦‚ä¸‹
 
     //always@(*)
     //begin
     //    case(Type)
     //        `ITYPE: Out<={ {21{In[31]}}, In[30:20] };
-    //        //......                                        //Çë²¹È«!!!
+    //        //......                                        //è¯·è¡¥å…¨!!!
     //        default:Out<=32'hxxxxxxxx;
     //    endcase
     //end

@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: USTC ESLAB£¨Embeded System Lab£©
+// Company: USTC ESLABï¼ˆEmbeded System Labï¼‰
 // Engineer: Haojun Xia & Xuan Wang
 // Create Date: 2019/02/08
 // Design Name: RISCV-Pipline CPU
@@ -57,7 +57,7 @@ module MEMSegReg(
     
 endmodule
 
-//¹¦ÄÜËµÃ÷
-    //MEMSegRegÊÇEX-MEM¶Î¼Ä´æÆ÷
-//ÊµÑéÒªÇó  
-    //ÎŞĞèĞŞ¸Ä
+//åŠŸèƒ½è¯´æ˜
+    //MEMSegRegæ˜¯EX-MEMæ®µå¯„å­˜å™¨
+//å®éªŒè¦æ±‚  
+    //æ— éœ€ä¿®æ”¹

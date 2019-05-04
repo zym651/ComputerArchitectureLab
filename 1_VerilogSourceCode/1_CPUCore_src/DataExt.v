@@ -26,14 +26,14 @@ module DataExt(
    
    always@(*) begin
        case(RegWriteW)
-           `LB:    begin
-                       tmp <= IN >> (LoadedBytesSelect*8);
-                       OUT <= { {24{tmp[7]}}, tmp[7:0] };
-                   end
-           `LH:    begin
-                       tmp <= IN >> (LoadedBytesSelect*8);
-                       OUT <= { {16{tmp[15]}}, tmp[15:0] };
-                   end
+           `LB: begin
+                   tmp <= IN >> (LoadedBytesSelect*8);
+                   OUT <= { {24{tmp[7]}}, tmp[7:0] };
+                end
+           `LH: begin
+                   tmp <= IN >> (LoadedBytesSelect*8);
+                   OUT <= { {16{tmp[15]}}, tmp[15:0] };
+                end
            `LW:    OUT <= IN;
            `LBU:   OUT <= (IN >> (LoadedBytesSelect*8)) & 32'hff;
            `LHU:   OUT <= (IN >> (LoadedBytesSelect*8)) & 32'hffff;
@@ -43,15 +43,15 @@ module DataExt(
     
 endmodule
 
-//¹¦ÄÜËµÃ÷
-    //DataExtÊÇÓÃÀ´´¦Àí·Ç×Ö¶ÔÆëloadµÄÇéĞÎ£¬Í¬Ê±¸ù¾İloadµÄ²»Í¬Ä£Ê½¶ÔData MemÖĞloadµÄÊı½øĞĞ·ûºÅ»òÕßÎŞ·ûºÅÍØÕ¹£¬×éºÏÂß¼­µçÂ·
-//ÊäÈë
-    //IN                    ÊÇ´ÓData MemoryÖĞloadµÄ32bit×Ö
-    //LoadedBytesSelect     µÈ¼ÛÓÚAluOutM[1:0]£¬ÊÇ¶ÁData MemoryµØÖ·µÄµÍÁ½Î»£¬
-                            //ÒòÎªDataMemoryÊÇ°´×Ö£¨32bit£©½øĞĞ·ÃÎÊµÄ£¬ËùÒÔĞèÒª°Ñ×Ö½ÚµØÖ·×ª»¯Îª×ÖµØÖ·´«¸øDataMem
-                            //DataMemÒ»´Î·µ»ØÒ»¸ö×Ö£¬µÍÁ½Î»µØÖ·ÓÃÀ´´Ó32bit×ÖÖĞÌôÑ¡³öÎÒÃÇĞèÒªµÄ×Ö½Ú
-    //RegWriteW             ±íÊ¾²»Í¬µÄ ¼Ä´æÆ÷Ğ´ÈëÄ£Ê½ £¬ËùÓĞÄ£Ê½¶¨ÒåÔÚParameters.vÖĞ
-//Êä³ö
-    //OUT±íÊ¾ÒªĞ´Èë¼Ä´æÆ÷µÄ×îÖÕÖµ
-//ÊµÑéÒªÇó  
-    //ÊµÏÖDataExtÄ£¿é  
+//åŠŸèƒ½è¯´æ˜
+    //DataExtæ˜¯ç”¨æ¥å¤„ç†éå­—å¯¹é½loadçš„æƒ…å½¢ï¼ŒåŒæ—¶æ ¹æ®loadçš„ä¸åŒæ¨¡å¼å¯¹Data Memä¸­loadçš„æ•°è¿›è¡Œç¬¦å·æˆ–è€…æ— ç¬¦å·æ‹“å±•ï¼Œç»„åˆé€»è¾‘ç”µè·¯
+//è¾“å…¥
+    //IN                    æ˜¯ä»Data Memoryä¸­loadçš„32bitå­—
+    //LoadedBytesSelect     ç­‰ä»·äºAluOutM[1:0]ï¼Œæ˜¯è¯»Data Memoryåœ°å€çš„ä½ä¸¤ä½ï¼Œ
+                            //å› ä¸ºDataMemoryæ˜¯æŒ‰å­—ï¼ˆ32bitï¼‰è¿›è¡Œè®¿é—®çš„ï¼Œæ‰€ä»¥éœ€è¦æŠŠå­—èŠ‚åœ°å€è½¬åŒ–ä¸ºå­—åœ°å€ä¼ ç»™DataMem
+                            //DataMemä¸€æ¬¡è¿”å›ä¸€ä¸ªå­—ï¼Œä½ä¸¤ä½åœ°å€ç”¨æ¥ä»32bitå­—ä¸­æŒ‘é€‰å‡ºæˆ‘ä»¬éœ€è¦çš„å­—èŠ‚
+    //RegWriteW             è¡¨ç¤ºä¸åŒçš„ å¯„å­˜å™¨å†™å…¥æ¨¡å¼ ï¼Œæ‰€æœ‰æ¨¡å¼å®šä¹‰åœ¨Parameters.vä¸­
+//è¾“å‡º
+    //OUTè¡¨ç¤ºè¦å†™å…¥å¯„å­˜å™¨çš„æœ€ç»ˆå€¼
+//å®éªŒè¦æ±‚  
+    //å®ç°DataExtæ¨¡å—  

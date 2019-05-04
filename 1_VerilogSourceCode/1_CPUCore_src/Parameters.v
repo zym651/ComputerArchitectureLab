@@ -50,13 +50,14 @@
     `define ST  7'b0100011
     `define NIMM 7'b0110011
     `define IMM 7'b0010011
-    `define LUI 7'b0110111
+    `define LUIOP 7'b0110111
     `define AUIPC 7'b0010111
     `define BR 7'b1100011
+    `define JLR 7'b1100111
     `define JL 7'b1101111
 `endif
 
-//功能说明
-    //为了代码可读性，定义了常量值
-//实验要求  
-    //无需修改
+//鍔熻兘璇存槑
+    //涓轰簡浠ｇ爜鍙鎬э紝瀹氫箟浜嗗父閲忓??
+//瀹為獙瑕佹眰  
+    //鏃犻渶淇敼

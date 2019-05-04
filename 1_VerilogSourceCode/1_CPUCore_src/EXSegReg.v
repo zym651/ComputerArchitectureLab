@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: USTC ESLAB（Embeded System Lab）
+// Company: USTC ESLAB锛圗mbeded System Lab锛?
 // Engineer: Haojun Xia
 // Create Date: 2019/02/08
 // Design Name: RISCV-Pipline CPU
@@ -45,8 +45,8 @@ module EXSegReg(
     output reg [1:0] RegReadE, 
     input wire [2:0] BranchTypeD,
     output reg [2:0] BranchTypeE,
-    input wire [4:0] AluContrlD,
-    output reg [4:0] AluContrlE,
+    input wire [3:0] AluContrlD,
+    output reg [3:0] AluContrlE,
     input wire AluSrc1D,
     output reg AluSrc1E,
     input wire [1:0] AluSrc2D,
@@ -119,7 +119,7 @@ module EXSegReg(
     
 endmodule
 
-//功能说明
-    //本模块是支持同步清零的段寄存器，当EN==0时寄存器状态保持不变（也不会执行清零）
-//实验要求  
-    //无需修改
+//鍔熻兘璇存槑
+    //鏈ā鍧楁槸鏀寔鍚屾娓呴浂鐨勬瀵勫瓨鍣紝褰揈N==0鏃跺瘎瀛樺櫒鐘舵?佷繚鎸佷笉鍙橈紙涔熶笉浼氭墽琛屾竻闆讹級
+//瀹為獙瑕佹眰  
+    //鏃犻渶淇敼

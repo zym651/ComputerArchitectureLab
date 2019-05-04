@@ -31,7 +31,7 @@ module RV32Core(
     wire [3:0] MemWriteD;
     wire [1:0] RegReadD;
     wire [2:0] BranchTypeD;
-    wire [4:0] AluContrlD;
+    wire [3:0] AluContrlD;
     wire [1:0] AluSrc2D;
     wire [2:0] RegWriteW;
     wire [4:0] RdW;
@@ -321,7 +321,7 @@ module RV32Core(
     	         
 endmodule
 
-//功能说明
-    //RV32I 指令集CPU的顶层模块
-//实验要求  
-    //无需修改
+//鍔熻兘璇存槑
+    //RV32I 鎸囦护闆咰PU鐨勯《灞傛ā鍧?
+//瀹為獙瑕佹眰  
+    //鏃犻渶淇敼
